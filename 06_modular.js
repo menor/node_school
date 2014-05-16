@@ -34,9 +34,9 @@ var fileUtils = require('./fileUtils.js');
 var folder = process.argv[2],
     extension = process.argv[3];
 
-fileUtils.filterFiles( folder, extension, function( err, response ){
+fileUtils( folder, extension, function( err, response ){
   if ( err )
     { console.log( 'There was an error: ' + err ); }
   else
-    { console.log( response ); }
+    { console.log( response.join('\n') ); }
 });
