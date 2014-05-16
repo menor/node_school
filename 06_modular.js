@@ -36,7 +36,7 @@ var folder = process.argv[2],
 
 fileUtils( folder, extension, function( err, response ){
   if ( err )
-    { console.log( 'There was an error: ' + err ); }
-  else
-    { console.log( response.join('\n') ); }
+    return console.error('There was an error:', err);
+
+  console.log( response.join('\n') );
 });

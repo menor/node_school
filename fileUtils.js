@@ -8,14 +8,15 @@ module.exports = function( folder, extension, callback ){
 
                   fs.readdir( folder, function( err, list ){
 
-                    if( err ) { return callback( err ); }
-                    else {
-                      var matchingFiles = list.filter(function( file ){
-                        return checkExtension.exec( file ) == '.' + extension ;
-                      });
+                    if( err )
+                      return callback( err );
+                    
+                    var matchingFiles = list.filter(function( file ){
+                      return checkExtension.exec( file ) == '.' + extension ;
+                    });
 
-                        // We send null to indicate that there's no errors  
-                        return callback( null, matchingFiles );
-                    }
+                    // We send null to indicate that there's no errors  
+                    return callback( null, matchingFiles );
+                    
                   });
 };
