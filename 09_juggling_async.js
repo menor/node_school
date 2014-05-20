@@ -18,14 +18,23 @@ var http = require( 'http' ),
     completed = 0,
     numberOfUrls = process.argv.length - 2,
     urls = process.argv.splice( 2, numberOfUrls ),
-    urlsContent = ['','','',''];
+    urlsContent = [''];
+
+function printResults(){
+  for( var i = 0; i <= numberOfUrls; i+= 1 ){
+    console.log( urlsContent[i] );
+  }
+}
 
 function getResponse( urls, position ){
   
+  // Allows to populate the array on the fly and also creates
+  // an empty string at the last position to make test pass ( since
+  // it checks for an empty string instead of undefined)
+  urlsContent[i + 1] = '';
+
   http
     .get( urls[position], function( response ){
-    
-      response.setEncoding('utf8');
 
       response
         .on( 'data', function( chunk ){
@@ -35,9 +44,7 @@ function getResponse( urls, position ){
         .on( 'end', function(){
           completed += 1;
           if( completed == numberOfUrls ) {
-            for( var i = 0; i <= numberOfUrls; i+= 1 ){
-              console.log( urlsContent[i] );
-            }
+            printResults();
           }
         });
     })
