@@ -8,27 +8,36 @@
 // that you must print them out in the same order as the URLs are provided
 // to you as command-line arguments.
 
+// Pseudocode
+// Store the urls in order in an object
+// Make a get request for each one of the urls
+// When the request ends check if the others have also ended
+// Output the contents
+
 var http = require( 'http' ),
     completed = 0,
     numberOfUrls = process.argv.length - 2,
     urls = process.argv.splice( 2, numberOfUrls ),
-    urlsContent = [];
+    urlsContent = ['','','',''];
 
-for( var i =0 ; i < numberOfUrls ; i += 1 ){
+function getResponse( urls, position ){
+  
   http
-    .get( urls[i], function( response ){
+    .get( urls[position], function( response ){
     
       response.setEncoding('utf8');
 
       response
         .on( 'data', function( chunk ){
-          urlsContent[i] += chunk;
+          urlsContent[position] += chunk;
         })
 
         .on( 'end', function(){
           completed += 1;
           if( completed == numberOfUrls ) {
-            console.log( urlsContent );
+            for( var i = 0; i <= numberOfUrls; i+= 1 ){
+              console.log( urlsContent[i] );
+            }
           }
         });
     })
@@ -39,29 +48,6 @@ for( var i =0 ; i < numberOfUrls ; i += 1 ){
   });
 }
 
-// function getResponse( url, callback ){
-
-//   http.get( url, function( response ){
-//     response.on( 'end', function(){
-//       completed += 1;
-//       console.log( 'completed: ' + completed);
-//     });
-//   })
-
-//   .on( 'error', function( err ){
-//     console.error( err );
-//     response.end( 'Server error' );
-//   });
-
-// }
-
-// console.log( urls[0] );
-// getResponse( 'http://www.josemenor.com' );
-
-
-
-// Pseudocode
-// Store the urls in order in an object
-// Make a get request for each one of the urls
-// When the request ends check if the others have also ended
-// Output the contents
+for( var i =0 ; i < numberOfUrls ; i += 1 ){
+    getResponse( urls, i);
+}
