@@ -4,21 +4,32 @@ var port = process.argv[2];
 
 var server = http.createServer( function( req, res ){
   var requestUrl = url.parse( req.url, true );
-  var isoTime = requestUrl.query.iso;
-  console.log( requestUrl );
+  var isoTime = new Date( requestUrl.query.iso );
+  var myTime = {};
+  
+  res.writeHead(200, { 'Content-Type': 'application/json' });
 
   switch ( requestUrl.pathname ){
+
     case "/api/parsetime":
-      console.log( 'API format' );
+      myTime = JSON.stringify({
+          hour: isoTime.getHours(),
+          minute: isoTime.getMinutes(),
+          second: isoTime.getSeconds()
+      });
       break;
+    
     case "/api/unixtime":
-      console.log( 'Unix time' );
+      myTime = JSON.stringify({
+        unixtime: isoTime.getTime()
+      });
       break;
+    
     default:
       console.log( "Invalid API call" );
   }
-  res.end();
-  
+  res.end( myTime );
+
 });
 
 console.log( 'Magic happens at ' + port );
